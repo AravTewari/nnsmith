@@ -116,7 +116,7 @@ def infer_topset_from_scratch(
         for i, ranks in enumerate(op.inp_ranks):
             if op.same_inp_dims and inputs:
                 rank = inputs[0].ndims
-            else:  # FIXME(@ganler): consider rank check over scalar & non-scalar.
+            else:
                 rank = min(ranks)
             shape = AbsTensor(
                 shape=[z3.Int("s%s" % (k)) for k in range(rank)],

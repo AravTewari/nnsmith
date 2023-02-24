@@ -4,6 +4,14 @@ from typing import Dict, List, Type
 
 import torch
 
+import onnx
+import onnx.checker
+import onnx.helper
+import torch
+import torch.onnx
+from onnx.external_data_helper import load_external_data_for_model
+from onnx.tools import update_model_dims
+
 from nnsmith.abstract.op import AbsOpBase, AbsTensor
 from nnsmith.gir import GraphIR
 from nnsmith.materialize import Model, Oracle
@@ -64,6 +72,19 @@ class TorchModel(Model):
         return Oracle(input_dict, output_dict, provider="torch[cpu] eager")
 
     def dump(self, path: PathLike):
+        myModel = self.torch_model
+        dummy_input = torch.randn(torch.size(myModel))
+        torch.onnx.export(
+                myModel,
+                tuple(dummy_input),
+                input_names="inputs",
+                output_names=list(myModel.output_like.keys()),
+                verbose=False,
+                # do_constant_folding=True,
+                # opset_version=14
+            )
+
+
         torch.save(self.torch_model.state_dict(), path)
         gir_path = path.replace(
             TorchModel.name_prefix() + TorchModel.name_suffix(),
