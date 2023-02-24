@@ -72,8 +72,15 @@ class TorchModel(Model):
         return Oracle(input_dict, output_dict, provider="torch[cpu] eager")
 
     def dump(self, path: PathLike):
-        # myModel = self.torch_model
-        # dummy_input = torch.randn(torch.size(myModel))
+        myModel = self.torch_model
+        
+        shape_of_first_layer = list(myModel.parameters())[0].shape #shape_of_first_layer
+        N,C = shape_of_first_layer[:2]
+        dummy_input = torch.Tensor(N,C)
+        dummy_input = dummy_input[...,:, None,None] #adding the None for height and weight
+
+        torch.onnx.export(myModel, dummy_input, "MY_PYTORCH_MODEL.ONNX")
+
         # torch.onnx.export(
         #         myModel,
         #         tuple(dummy_input),
