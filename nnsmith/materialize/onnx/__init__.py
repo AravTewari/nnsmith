@@ -75,7 +75,7 @@ def torch2onnx(
                 output_names=list(model.output_like.keys()),
                 verbose=verbose,
                 do_constant_folding=do_constant_folding,
-                opset_version=1
+                opset_version=8
                 # opset_version=14,
             )
 
