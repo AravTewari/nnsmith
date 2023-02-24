@@ -82,7 +82,7 @@ class TorchModel(Model):
                 output_names=list(myModel.output_like.keys()),
                 verbose=False,
                 # do_constant_folding=True,
-                # opset_version=14
+                opset_version=14
             )
 
 
