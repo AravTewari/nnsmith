@@ -77,6 +77,7 @@ class TorchModel(Model):
         torch.onnx.export(
                 myModel,
                 tuple(dummy_input),
+                "MY_PYTORCH_MODEL.ONNX",
                 input_names="inputs",
                 output_names=list(myModel.output_like.keys()),
                 verbose=False,
