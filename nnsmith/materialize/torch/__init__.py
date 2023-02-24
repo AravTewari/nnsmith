@@ -72,18 +72,18 @@ class TorchModel(Model):
         return Oracle(input_dict, output_dict, provider="torch[cpu] eager")
 
     def dump(self, path: PathLike):
-        myModel = self.torch_model
-        dummy_input = torch.randn(torch.size(myModel))
-        torch.onnx.export(
-                myModel,
-                tuple(dummy_input),
-                "MY_PYTORCH_MODEL.ONNX",
-                input_names="inputs",
-                output_names=list(myModel.output_like.keys()),
-                verbose=False,
-                # do_constant_folding=True,
-                opset_version=14
-            )
+        # myModel = self.torch_model
+        # dummy_input = torch.randn(torch.size(myModel))
+        # torch.onnx.export(
+        #         myModel,
+        #         tuple(dummy_input),
+        #         "MY_PYTORCH_MODEL.ONNX",
+        #         input_names="inputs",
+        #         output_names=list(myModel.output_like.keys()),
+        #         verbose=False,
+        #         # do_constant_folding=True,
+        #         opset_version=14
+        #     )
 
 
         torch.save(self.torch_model.state_dict(), path)
